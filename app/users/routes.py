@@ -1,15 +1,11 @@
 from fastapi import APIRouter
+from app import models
 
 from app.core.db import SessionLocal
 from app.users.schemas import UserCreate
 from app.users.view import create_user, get_user_by_username
 
 user = APIRouter()
-
-
-@user.get("/")
-def read_root():
-    return {"Hello": "World"}
 
 
 @user.get("/{username}")
@@ -20,9 +16,15 @@ def find_user(username: str):
     return user
 
 
-@user.post("/create")
-def add_user(user: UserCreate):
+@user.post("/register")
+def register_user(user: UserCreate):
     db = SessionLocal()
     # Create a new user in the database
+    user.hashed_password = models.User.hash_password(user.hashed_password)
     db_user = create_user(db=db, user=user)
     return db_user
+
+
+@user.post("/login")
+def login():
+    return "ThisTokenIsFake"
