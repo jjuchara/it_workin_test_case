@@ -9,7 +9,7 @@ message = APIRouter()
 
 @message.post("/send")
 def send_message(message: MessageCreate):
-    # Send a message from the sender to the recipient
+    """Send a message from the sender to the recipient"""
     db = SessionLocal()
     db_message = create_message(db, message)
     return db_message
@@ -17,7 +17,7 @@ def send_message(message: MessageCreate):
 
 @message.get("/{user_id}")
 def recieve_messages(user_id: int):
-    # Retrieve messages for the specified user
+    """Retrieve messages for the specified user"""
     db = SessionLocal()
     messages = get_messages(db, user_id)
     return messages
