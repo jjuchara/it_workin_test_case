@@ -3,7 +3,17 @@ import app.models as models
 import app.users.schemas as schemas
 
 
+def get_user(session: Session, email: str):
+    """
+    Get user to check user credential
+    """
+    return session.query(models.User).filter(models.User.email == email).one()
+
+
 def get_user_by_username(db: Session, username: str) -> schemas.User:
+    """
+    find user by username
+    """
     return db.query(models.User).filter(models.User.username == username).first()
 
 
